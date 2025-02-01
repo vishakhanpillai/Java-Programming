@@ -6,7 +6,7 @@ public class sumOfArray {
 
         System.out.print("Enter the size of the array: ");
         n = sc.nextInt();
-
+        sc.close();
         int[] arr = new int[n];
 
         System.err.println("Enter the array elemnts: ");
@@ -16,6 +16,6 @@ public class sumOfArray {
         }
 
         System.out.print("The sum of array elements is: " + sum);
-
+        
     }
 }

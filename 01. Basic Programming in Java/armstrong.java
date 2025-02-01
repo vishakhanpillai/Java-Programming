@@ -31,6 +31,7 @@ public class armstrong{
 		}
 		else{
 			System.out.println( num + " is not an armstrong number ");
-		}		
+		}
+        sc.close();		
 	}
 }

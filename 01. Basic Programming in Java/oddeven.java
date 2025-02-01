@@ -5,7 +5,7 @@ public class oddeven {
         Scanner sc = new Scanner(System.in);
 
         int num;
-
+        sc.close();
         System.out.print("Enter a number: ");
         num = sc.nextInt();
 

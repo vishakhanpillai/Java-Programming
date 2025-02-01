@@ -32,6 +32,7 @@ public class checkday {
 			default:
 				System.out.println("Pick a number between 1 and 7");
 		}
+        sc.close();
 
     }
 }

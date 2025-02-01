@@ -57,7 +57,7 @@ public class matrixSum {
             System.out.println();
         }
 
-        
+        sc.close();
 
     }
 }

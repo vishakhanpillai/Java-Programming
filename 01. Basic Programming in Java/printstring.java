@@ -5,7 +5,7 @@ public class printstring {
 
         Scanner sc = new Scanner(System.in);
         String str;
-
+        sc.close();
         System.out.print("Enter a string: ");
         str = sc.nextLine();
 
