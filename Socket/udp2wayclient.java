@@ -6,37 +6,32 @@ public class udp2wayclient {
         try{
             DatagramSocket socket = new DatagramSocket();
             InetAddress ip = InetAddress.getLocalHost();
+            int port = 2222;
+
             BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
             while (true) {
-                System.out.print("Client: ");
-                String str = input.readLine();
-                byte[] msg = str.getBytes();
-                DatagramPacket dp = new DatagramPacket(msg, msg.length, ip, 1234);
+                System.out.println("Client: ");
+                String msg = input.readLine();
+                byte[] toServer = msg.getBytes();
+                DatagramPacket dp = new DatagramPacket(toServer, toServer.length, ip, port);
                 socket.send(dp);
 
-                if(str.equalsIgnoreCase("exit")){
+                if(msg.equalsIgnoreCase("exit")){
                     break;
                 }
 
-                byte[] buffer = new byte[256];
-                DatagramPacket toServer = new DatagramPacket(buffer, buffer.length);
-                socket.receive(toServer);
+                byte[] fromServer = new byte[1024];
+                DatagramPacket dPacket = new DatagramPacket(fromServer, fromServer.length);
+                String serverMsg = new String(dPacket.getData());
 
-                String serverMsg = new String(toServer.getData());
-
-                System.out.println("Server: " + serverMsg);
-
-                if(serverMsg.equalsIgnoreCase("exit")){
-                    break;
-                }
+                
+                
             }
-            socket.close();
         }
         catch(Exception e){
             e.printStackTrace();
         }
-
 
     }
 }
