@@ -1,0 +1,13 @@
+package StudentManagement;
+
+public class Student {
+	String name;
+	int roll, grade;
+	
+	public Student(String name, int roll, int grade) {
+		this.name = name;
+		this.roll = roll;
+		this.grade = grade;
+	}
+	
+}

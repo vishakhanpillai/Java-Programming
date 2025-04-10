@@ -1,0 +1,21 @@
+class InvalidAgeException extends Exception{
+	
+	public InvalidAgeException(String msg) {
+		super(msg);
+	}
+}
+
+
+public class customException {
+	public static void main(String[] args) throws InvalidAgeException {
+		
+		int age = 10;
+		
+		if(age < 18) {
+			throw new InvalidAgeException("Underage");
+		}
+		else {
+			System.out.println("You are in good to go");
+		}
+	}
+}

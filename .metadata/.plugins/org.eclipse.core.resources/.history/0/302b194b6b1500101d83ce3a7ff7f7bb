@@ -1,0 +1,265 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JTabbedPane;
+import java.awt.Panel;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import java.sql.*;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+public class addStudent extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	static final String url = "jdbc:mysql://localhost:3306/swing";
+	static final String username = "root";
+	static final String password = "";
+	private JPanel contentPane;
+	private JTextField studentName;
+	private JTextField studentEmail;
+	private JTextField studentAge;
+	private JTextField studentPhone;
+	private JTextField studentCourse;
+	private JTable table;
+	private JTextField deleteName;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					addStudent frame = new addStudent();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public addStudent() {
+		setTitle("Student Management System");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 763, 444);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(0, 0, 747, 405);
+		contentPane.add(tabbedPane);
+		
+		JPanel panel = new JPanel();
+		tabbedPane.addTab("Add", null, panel, null);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Student Management System");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblNewLabel.setBounds(224, 32, 291, 28);
+		panel.add(lblNewLabel);
+		
+		studentName = new JTextField();
+		studentName.setBounds(319, 90, 180, 20);
+		panel.add(studentName);
+		studentName.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("Name");
+		lblNewLabel_1.setBounds(248, 93, 61, 14);
+		panel.add(lblNewLabel_1);
+		
+		studentEmail = new JTextField();
+		studentEmail.setBounds(319, 138, 180, 20);
+		panel.add(studentEmail);
+		studentEmail.setColumns(10);
+		
+		JLabel lblNewLabel_2 = new JLabel("Email");
+		lblNewLabel_2.setBounds(248, 141, 46, 14);
+		panel.add(lblNewLabel_2);
+		
+		studentAge = new JTextField();
+		studentAge.setBounds(319, 184, 180, 20);
+		panel.add(studentAge);
+		studentAge.setColumns(10);
+		
+		JLabel lblNewLabel_3 = new JLabel("Age");
+		lblNewLabel_3.setBounds(248, 187, 46, 14);
+		panel.add(lblNewLabel_3);
+		
+		studentPhone = new JTextField();
+		studentPhone.setBounds(319, 232, 180, 20);
+		panel.add(studentPhone);
+		studentPhone.setColumns(10);
+		
+		JLabel lblNewLabel_4 = new JLabel("Phone");
+		lblNewLabel_4.setBounds(248, 235, 46, 14);
+		panel.add(lblNewLabel_4);
+		
+		studentCourse = new JTextField();
+		studentCourse.setBounds(319, 268, 180, 20);
+		panel.add(studentCourse);
+		studentCourse.setColumns(10);
+		
+		JLabel lblNewLabel_5 = new JLabel("Course");
+		lblNewLabel_5.setBounds(248, 271, 46, 14);
+		panel.add(lblNewLabel_5);
+		
+		JButton btnNewButton = new JButton("Add Student");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String name = studentName.getText();
+				String email = studentName.getText();
+				int age = Integer.valueOf(studentAge.getText());
+				String phone = studentPhone.getText();
+				String course = studentCourse.getText();
+				
+				register(name, email, age, phone, course);
+			}
+		});
+		btnNewButton.setBounds(319, 313, 103, 23);
+		panel.add(btnNewButton);
+		
+		JPanel panel_1 = new JPanel();
+		tabbedPane.addTab("Delete", null, panel_1, null);
+		panel_1.setLayout(null);
+		
+		JLabel lblNewLabel_7 = new JLabel("Student Management System");
+		lblNewLabel_7.setBounds(241, 39, 252, 21);
+		lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 17));
+		panel_1.add(lblNewLabel_7);
+		
+		JLabel lblNewLabel_8 = new JLabel("Name");
+		lblNewLabel_8.setBounds(252, 126, 46, 14);
+		panel_1.add(lblNewLabel_8);
+		
+		deleteName = new JTextField();
+		deleteName.setBounds(308, 123, 185, 20);
+		panel_1.add(deleteName);
+		deleteName.setColumns(10);
+		
+		JButton deleteBrn = new JButton("New button");
+		deleteBrn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String name = deleteName.getText();
+				
+				delete(name);
+			}
+		});
+		deleteBrn.setBounds(308, 168, 89, 23);
+		panel_1.add(deleteBrn);
+		
+		JPanel panel_2 = new JPanel();
+		tabbedPane.addTab("Update", null, panel_2, null);
+		
+		Panel panel_3 = new Panel();
+		tabbedPane.addTab("Display", null, panel_3, null);
+		panel_3.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(125, 46, 470, 253);
+		panel_3.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] {
+				"Name", "Email", "Age", "Phone", "Course"
+		}));
+		
+		JLabel lblNewLabel_6 = new JLabel("Student Management System");
+		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblNewLabel_6.setBounds(212, 7, 291, 28);
+		panel_3.add(lblNewLabel_6);
+		
+		JButton displayBtn = new JButton("Display");
+		displayBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				viewAll();
+			}
+		});
+		displayBtn.setBounds(305, 310, 89, 23);
+		panel_3.add(displayBtn);
+	}
+	
+	public void register(String name, String email, int age, String phone, String course) {
+		try {
+			Connection con = DriverManager.getConnection(url, username, password);
+			String qry = "INSERT INTO student values(?,?,?,?,?)";
+			PreparedStatement prep = con.prepareStatement(qry);
+			
+			prep.setString(1, name);
+			prep.setString(2, email);
+			prep.setInt(3, age);
+			prep.setString(4, phone);
+			prep.setString(5, course);
+			
+			int rows = prep.executeUpdate();
+			
+			if(rows > 0) {
+				JOptionPane.showMessageDialog(this, "Successfully Registered");
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Failed", "Registration failed", JOptionPane.ERROR_MESSAGE);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void viewAll() {
+		try {
+			Connection con = DriverManager.getConnection(url, username, password);
+			
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM student");
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
+			model.setRowCount(0);
+			
+			while(rs.next()) {
+				String name = rs.getString(1);
+				String email = rs.getString(2);
+				int age = rs.getInt(3);
+				String phone = rs.getString(4);
+				String course = rs.getString(5);
+				
+				model.addRow(new Object[] {
+						name, email, age, phone, course
+				});
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void delete(String name) {
+		try
+	}
+}

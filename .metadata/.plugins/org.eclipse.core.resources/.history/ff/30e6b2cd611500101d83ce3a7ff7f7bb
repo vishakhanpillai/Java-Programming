@@ -1,0 +1,112 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import com.mysql.cj.protocol.Resultset;
+
+import javax.swing.JScrollPane;
+import javax.swing.JToolBar;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.awt.event.ActionEvent;
+
+public class tableShow extends JFrame {
+	
+	static final String url = "jdbc:mysql://localhost:3306/swing";
+	static final String username = "root";
+	static final String password = "";
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTable table;
+	private JTable table_1;
+	private JButton btnNewButton;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					tableShow frame = new tableShow();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public tableShow() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 567, 367);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(80, 46, 382, 232);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		table.setModel(new DefaultTableModel(
+				new Object[][] {},
+				new String[] {"Name", "Email", "Age", "Phone", "Course"}
+		));
+		
+		btnNewButton = new JButton("Display");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewAll();
+			}
+		});
+		btnNewButton.setBounds(223, 289, 89, 23);
+		contentPane.add(btnNewButton);
+		
+	}
+	
+	public void viewAll() {
+		try {
+			Connection con = DriverManager.getConnection(url, username, password);
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM student");
+			
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
+			model.setRowCount(0);
+			while(rs.next()) {
+				
+				String name = rs.getString(1);
+				String email = rs.getString(2);
+				String age = Integer.toString(rs.getInt(3));
+				String phone = rs.getString(4);
+				String course = rs.getString(15);
+				
+				model.addRow(new Object[] {
+						name, email, age, phone, course
+				});
+				
+				
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+}

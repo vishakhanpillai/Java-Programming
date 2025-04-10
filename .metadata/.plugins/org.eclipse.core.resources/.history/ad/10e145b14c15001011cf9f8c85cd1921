@@ -1,0 +1,40 @@
+import java.io.*;
+import java.util.Scanner;
+public class filescanner {
+	public static void main(String[] args) throws IOException{
+		Scanner sc = new Scanner(System.in);
+		
+		File file = new File("D:\\Rajagiri\\JAVA EXAM\\file management\\src\\sample.txt");
+		Scanner read = new Scanner(file);
+		
+		System.out.println("File Contents: ");
+		while(read.hasNextLine()) {
+			
+			System.out.println(read.nextLine());
+		}
+		read.close();
+		
+		PrintWriter write = new PrintWriter( new FileWriter(file, true));
+		String input;
+		
+		System.out.print("What do you want to enter to file: ");
+		input = sc.nextLine();
+		
+		write.println(input);
+		write.flush();
+		
+		Scanner read = new Scanner(file);
+;		System.out.println("File Contents: ");
+		while(read.hasNextLine()) {
+			
+			System.out.println(read.nextLine());
+		}
+		
+		
+		read.close();
+		
+		write.close();
+		sc.close();
+		
+	}
+}

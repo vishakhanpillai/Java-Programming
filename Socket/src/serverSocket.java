@@ -1,0 +1,35 @@
+import java.io.*;
+import java.net.*;
+public class serverSocket {
+	public static void main(String[] args) throws IOException{
+		
+		DatagramSocket socket = new DatagramSocket(8080);
+		BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
+		
+		while(true) {
+			byte[] msg = new byte[256];
+			DatagramPacket dp = new DatagramPacket(msg, msg.length);
+			socket.receive(dp);
+			String fromClient = new String(dp.getData());
+			System.out.println("Client: " + fromClient);
+			
+			if(fromClient.equalsIgnoreCase("exit")) {
+				break;
+			}
+			
+			
+			System.out.println("Server: ");
+			String fromServer = buffer.readLine();
+			byte[] msg2 = fromServer.getBytes();
+			DatagramPacket dp2 = new DatagramPacket(msg2, msg2.length, dp.getAddress(), dp.getPort());
+			socket.send(dp2);
+			
+			if(fromServer.equalsIgnoreCase("exit")) {
+				break;
+			}
+		}
+		
+		socket.close();
+		buffer.close();
+	}
+}

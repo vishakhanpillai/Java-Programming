@@ -1,0 +1,32 @@
+class book{
+	
+	public book(String title, String author) {
+		
+		System.out.println("Title: " + title);
+		System.out.println("Author: " + author);
+	}
+	
+	public book(String title, String author, double price) {
+		
+		System.out.println("Title: " + title);
+		System.out.println("Author: " + author);
+		System.out.println("Price: " + price);
+	}
+	
+	public book(String title, String author, double price, String publisher) {
+		
+		System.out.println("Title: " + title);
+		System.out.println("Author: " + author);
+		System.out.println("Price: " + price);
+		System.out.println("Publisher: " + publisher);
+	}
+}
+
+public class bookOverload {
+	public static void main(String[] args) {
+		
+		book b1 = new book("Atomic Habits", "James Clear");
+		book b2 = new book("The Alchemist", "Paulo Choelo", 499);
+		book b3 = new book("The Kite Runner", "Khalid Hosseini", 599, "Penguin");
+	}
+}

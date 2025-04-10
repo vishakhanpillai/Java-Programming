@@ -1,0 +1,12 @@
+import geometry.*;
+public class addTest {
+public static void main(String[] args) {
+	
+	
+	Circle circle = new Circle();
+	Rectangle rectangle = new Rectangle();
+	
+	circle.area(4);
+	rectangle.area(5, 3);
+}
+}

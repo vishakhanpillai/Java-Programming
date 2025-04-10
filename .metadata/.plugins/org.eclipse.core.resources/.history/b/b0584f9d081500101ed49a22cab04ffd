@@ -1,0 +1,74 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class deleteStudent extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField name;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					deleteStudent frame = new deleteStudent();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public deleteStudent() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 749, 431);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Delete Student");
+		lblNewLabel.setBounds(316, 43, 73, 19);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Name");
+		lblNewLabel_1.setBounds(260, 105, 46, 14);
+		contentPane.add(lblNewLabel_1);
+		
+		name = new JTextField();
+		name.setBounds(332, 102, 107, 20);
+		contentPane.add(name);
+		name.setColumns(10);
+		
+		JLabel delLabel = new JLabel("New label");
+		delLabel.setBounds(316, 175, 46, 14);
+		contentPane.add(delLabel);
+		
+		JButton delBtn = new JButton("New button");
+		delBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		delBtn.setBounds(300, 139, 89, 23);
+		contentPane.add(delBtn);
+	}
+
+}

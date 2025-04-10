@@ -1,0 +1,90 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+import javax.swing.JToolBar;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+
+public class tableShow extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTable table;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					tableShow frame = new tableShow();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public tableShow() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 567, 367);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(97, 33, 356, 229);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		table.setModel(new DefaultTableModel(
+				new Object[][] {
+					
+				},
+				new String[] {
+						"name", "email", "age", "phone", "course"
+				}));
+		
+		JButton ViewBtn = new JButton("Display");
+		ViewBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewAll();
+			}
+		});
+		ViewBtn.setBounds(217, 273, 89, 23);
+		contentPane.add(ViewBtn);
+	}
+	
+	public void viewAll() {
+		try {
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swing", "root", "");
+			if(con == null) {
+				System.out.println("Fail");
+			}
+			else {
+				System.out.println("success");
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+}

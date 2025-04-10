@@ -1,0 +1,10 @@
+import mathOperations.Addition;
+public class addTest {
+public static void main(String[] args) {
+	
+	
+	Addition add = new Addition();
+	
+	add.add(2, 3);
+}
+}

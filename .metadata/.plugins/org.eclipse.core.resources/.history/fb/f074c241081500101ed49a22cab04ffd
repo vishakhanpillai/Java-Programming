@@ -1,0 +1,79 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.awt.ScrollPane;
+
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JTable;
+
+public class deleteStudent extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField sname;
+	private JTable table;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					deleteStudent frame = new deleteStudent();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public deleteStudent() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 785, 558);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Delete Student");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(289, 40, 166, 21);
+		contentPane.add(lblNewLabel);
+		
+		sname = new JTextField();
+		sname.setBounds(369, 86, 114, 20);
+		contentPane.add(sname);
+		sname.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("Name");
+		lblNewLabel_1.setBounds(289, 89, 46, 14);
+		contentPane.add(lblNewLabel_1);
+		
+		JButton delBtn = new JButton("Delete Student");
+		delBtn.setBounds(335, 127, 120, 23);
+		contentPane.add(delBtn);
+		
+		String[] cols = {"Name", "Email", "Age", "Phone", "Course"};
+		DefaultTableModel model = new DefaultTableModel(cols, 0);
+		table = new JTable(model);
+		JScrollPane pane = new JScrollPane(table);
+		table.setBounds(147, 221, 457, 238);
+		contentPane.add(pane);
+	}
+}

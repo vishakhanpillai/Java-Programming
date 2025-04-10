@@ -1,0 +1,93 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+class Flight{
+	
+	int flightNumber, seatsAvailable;
+	String source, destination;
+	
+	Queue<String> waitingList = new LinkedList<String>();
+	
+	public Flight(int flightNumber, String source, String destination, int seatsAvailable) {
+		this.flightNumber = flightNumber;
+		this.source = source;
+		this.destination = destination;
+		this.seatsAvailable = seatsAvailable;
+	}
+	
+	
+	public void bookTicket(String passengerName) {
+		
+		if(seatsAvailable != 0) {
+			seatsAvailable--;
+			System.out.println("Seat for " + passengerName + " booked Successfully");
+		}
+		else {
+			System.out.println("No Available Seats " + passengerName + " will be added to Waiting List");
+			waitingList.add(passengerName);
+		}
+	}
+	
+	public void cancelTicket(String passengerName) {
+		System.out.println(passengerName + " has cancelled their booking ");
+		
+		if(!waitingList.isEmpty()) {
+			String nextPerson = waitingList.poll();
+			System.out.println(nextPerson + " has been moved to confirmed List");
+		}
+		else {
+			seatsAvailable++;
+		}
+	}
+	
+	public void status() {
+		System.out.println("Flight: " + flightNumber + " " + source + " " + destination + " " + seatsAvailable);
+		System.out.println("Seats Available: " + seatsAvailable);
+		System.out.println("Waiting List: " + waitingList);
+	}
+	
+	
+}
+public class flightReg {
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		Flight flight = new Flight(101, "Calicut", "Dubai", 2);
+		
+		int choice;
+		
+		while(true) {
+			
+			System.out.println("\nFlight Booking System");
+			System.out.println("1. Book Flight");
+			System.out.println("2. Cancel Flight");
+			System.out.println("3. View Flight Status");
+			System.out.println("4. Exit");
+			
+			System.out.print("Enter your choice: ");
+			choice = sc.nextInt();
+			
+			switch(choice) {
+				case 1:
+					System.out.print("Enter your name to book: ");
+					String bookName = sc.nextLine();
+					flight.bookTicket(bookName);
+					break;
+				case 2:
+					System.out.print("Enter your name to cancel: ");
+					String cancelName = sc.nextLine();
+					flight.cancelTicket(cancelName);
+					break;
+				case 3:
+					flight.status();
+					break;
+				case 4:
+					System.out.println("Thank you");
+					return;
+				default:
+					System.out.println("Invalid Option");
+			}
+		}
+	}
+}

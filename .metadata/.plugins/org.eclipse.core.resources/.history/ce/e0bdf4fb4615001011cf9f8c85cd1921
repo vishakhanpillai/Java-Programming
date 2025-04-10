@@ -1,0 +1,11 @@
+import StudentManagement.Student;
+
+public class stdTest {
+	public static void main(String[] args) {
+		
+		
+		Student st = new Student("Arun", 1, 12);
+		
+		System.out.println(st.name);
+	}
+}

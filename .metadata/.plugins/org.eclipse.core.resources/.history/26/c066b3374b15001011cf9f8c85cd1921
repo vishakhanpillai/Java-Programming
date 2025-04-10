@@ -1,0 +1,39 @@
+import java.io.*;
+import java.util.Scanner;
+public class fileread {
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+		try {
+			
+		
+			PrintWriter write = new PrintWriter(new FileWriter("D:\\Rajagiri\\JAVA EXAM\\file management\\src\\sample.txt", true));
+			BufferedReader read = new BufferedReader(new FileReader("D:\\Rajagiri\\JAVA EXAM\\file management\\src\\sample.txt"));
+			
+			String line;
+			
+			System.out.println("File Contents: ");
+			while((line = read.readLine()) != null) {
+				System.out.println(line);
+			}
+			
+			System.out.println("Enter what you want to write to the file: ");
+			String input = sc.nextLine();
+			
+			write.println(input);
+			write.flush();
+			
+			String line2;
+			System.out.println("File Contents: ");
+			while((line2 = read.readLine()) != null) {
+				System.out.println(line);
+			}
+			
+			read.close();
+			write.close();
+			sc.close();
+		}
+		catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+}

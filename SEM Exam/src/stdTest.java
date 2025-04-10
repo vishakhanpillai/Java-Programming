@@ -1,0 +1,15 @@
+import StudentManagement.*;
+
+public class stdTest {
+	public static void main(String[] args) {
+		
+		
+		Student st = new Student("Arun", "1", "12");
+		
+		operations op = new operations();
+		
+		op.display();
+		op.addStudent(st);
+		op.display();
+	}
+}

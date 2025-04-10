@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;file management/src/copy&apos; to &apos;copy.txt&apos;" description="Rename resource &apos;copy&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/copy" name="copy.txt" stamp="1744208256441" updateReferences="true"/>
+</session>

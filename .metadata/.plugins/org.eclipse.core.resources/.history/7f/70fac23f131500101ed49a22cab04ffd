@@ -1,0 +1,190 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.awt.event.ActionEvent;
+
+public class railwayTicket extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField ticketID;
+	private JTextField ticketSource;
+	private JTextField ticketDestination;
+	private JTextField ticketDate;
+	private JTextField cancelID;
+
+	int availableSeats = 100;
+	
+	static final String url = "jdbc:mysql://localhost:3306/swing";
+	static final String username = "root";
+	static final String password = "";
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					railwayTicket frame = new railwayTicket();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public railwayTicket() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 814, 619);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Railway Ticket Booking System");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(245, 80, 290, 21);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Ticket ID");
+		lblNewLabel_1.setBounds(245, 143, 60, 14);
+		contentPane.add(lblNewLabel_1);
+		
+		ticketID = new JTextField();
+		ticketID.setBounds(315, 140, 209, 20);
+		contentPane.add(ticketID);
+		ticketID.setColumns(10);
+		
+		JLabel lblNewLabel_2 = new JLabel("Source");
+		lblNewLabel_2.setBounds(245, 192, 46, 14);
+		contentPane.add(lblNewLabel_2);
+		
+		ticketSource = new JTextField();
+		ticketSource.setBounds(315, 189, 209, 20);
+		contentPane.add(ticketSource);
+		ticketSource.setColumns(10);
+		
+		JLabel lblNewLabel_3 = new JLabel("Destination");
+		lblNewLabel_3.setBounds(245, 244, 60, 14);
+		contentPane.add(lblNewLabel_3);
+		
+		ticketDestination = new JTextField();
+		ticketDestination.setBounds(315, 241, 209, 20);
+		contentPane.add(ticketDestination);
+		ticketDestination.setColumns(10);
+		
+		JLabel lblNewLabel_4 = new JLabel("Date");
+		lblNewLabel_4.setBounds(245, 293, 46, 14);
+		contentPane.add(lblNewLabel_4);
+		
+		ticketDate = new JTextField();
+		ticketDate.setBounds(315, 290, 209, 20);
+		contentPane.add(ticketDate);
+		ticketDate.setColumns(10);
+		
+		JButton bookTicket = new JButton("Book Ticket");
+		bookTicket.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String id = ticketID.getText();
+				String source = ticketSource.getText();
+				String destination = ticketDestination.getText();
+				String date = ticketDate.getText();
+				
+				if(book(id, source, destination, date)) {
+					availableSeats = availableSeats - 1;
+				}
+			}
+		});
+		bookTicket.setBounds(346, 336, 89, 23);
+		contentPane.add(bookTicket);
+		
+		JLabel lblCancelTicket = new JLabel("Cancel Ticket");
+		lblCancelTicket.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCancelTicket.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblCancelTicket.setBounds(245, 393, 290, 21);
+		contentPane.add(lblCancelTicket);
+		
+		cancelID = new JTextField();
+		cancelID.setColumns(10);
+		cancelID.setBounds(315, 435, 209, 20);
+		contentPane.add(cancelID);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("Ticket ID");
+		lblNewLabel_1_1.setBounds(245, 438, 60, 14);
+		contentPane.add(lblNewLabel_1_1);
+		
+		JButton cancelBtn = new JButton("Cancel Button");
+		cancelBtn.setBounds(346, 480, 108, 23);
+		contentPane.add(cancelBtn);
+		
+		JLabel lblAvailableSeats = new JLabel("Available Seats");
+		lblAvailableSeats.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAvailableSeats.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblAvailableSeats.setBounds(208, 533, 227, 21);
+		contentPane.add(lblAvailableSeats);
+		
+		JLabel seatLabel = new JLabel("");
+		seatLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		seatLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
+		seatLabel.setBounds(404, 533, 143, 21);
+		seatLabel.setText(Integer.toString(availableSeats));
+		contentPane.add(seatLabel);
+	}
+	
+	public boolean book(String id, String source, String destination, String date) {
+		try {
+			Connection con = DriverManager.getConnection(url, username, password);
+			String qry = "INSERT INTO tickets VALUES(?, ?, ?, ?)";
+			PreparedStatement prep = con.prepareStatement(qry);
+			prep.setString(1, id);
+			prep.setString(2, source);
+			prep.setString(3, destination);
+			prep.setString(4, date);
+			
+			Statement stmt = con.createStatement();
+			int num = prep.executeUpdate();
+			
+			if(num > 0) {
+				JOptionPane.showMessageDialog(this, "Ticket Successfully Booked");
+				
+				ResultSet rs = stmt.executeQuery("SELECT * from tickets");
+				while(rs.next()) {
+					
+					System.out.println(rs.getString(1) + rs.getString(2) + rs.getString(3) + rs.getString(4));
+				}
+				return true;
+				
+			}
+			else {
+				
+				return false;
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+}
